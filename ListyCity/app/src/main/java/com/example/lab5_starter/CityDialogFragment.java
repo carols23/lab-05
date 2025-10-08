@@ -61,19 +61,35 @@ public class CityDialogFragment extends DialogFragment {
             city = null;}
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        return builder
-                .setView(view)
-                .setTitle("City Details")
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Continue", (dialog, which) -> {
-                    String title = editMovieName.getText().toString();
-                    String year = editMovieYear.getText().toString();
-                    if (Objects.equals(tag, "City Details")) {
+        builder.setView(view);
+        builder.setTitle("City Details");
+
+        if (Objects.equals(tag, "City Details") && city != null) {
+            // If viewing an existing city, show Delete and Update buttons
+            builder
+                    .setPositiveButton("Update", (dialog, which) -> {
+                        String title = editMovieName.getText().toString();
+                        String year = editMovieYear.getText().toString();
                         listener.updateCity(city, title, year);
-                    } else {
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .setNeutralButton("Delete", (dialog, which) -> {
+                        if (getActivity() instanceof MainActivity) {
+                            ((MainActivity) getActivity()).deleteCity(city);
+                        }
+                    });
+        } else {
+            // If adding a new city
+            builder
+                    .setPositiveButton("Add", (dialog, which) -> {
+                        String title = editMovieName.getText().toString();
+                        String year = editMovieYear.getText().toString();
                         listener.addCity(new City(title, year));
-                    }
-                })
-                .create();
+                    })
+                    .setNegativeButton("Cancel", null);
+        }
+
+        return builder.create();
+
     }
 }
