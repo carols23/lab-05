@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements CityDialogFragmen
 
         db = FirebaseFirestore.getInstance();
         citiesRef = db.collection("cities");
-        System.out.println(db);
+
 
         citiesRef.addSnapshotListener((value, error) -> {
             if (error != null) {
