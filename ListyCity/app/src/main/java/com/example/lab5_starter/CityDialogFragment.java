@@ -20,14 +20,17 @@ public class CityDialogFragment extends DialogFragment {
     }
     private CityDialogListener listener;
 
+
     public static CityDialogFragment newInstance(City city){
         Bundle args = new Bundle();
         args.putSerializable("City", city);
+
 
         CityDialogFragment fragment = new CityDialogFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -40,6 +43,7 @@ public class CityDialogFragment extends DialogFragment {
         }
     }
 
+
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -47,9 +51,11 @@ public class CityDialogFragment extends DialogFragment {
         EditText editMovieName = view.findViewById(R.id.edit_city_name);
         EditText editMovieYear = view.findViewById(R.id.edit_province);
 
+
         String tag = getTag();
         Bundle bundle = getArguments();
         City city;
+
 
         if (Objects.equals(tag, "City Details") && bundle != null){
             city = (City) bundle.getSerializable("City");
@@ -60,12 +66,14 @@ public class CityDialogFragment extends DialogFragment {
         else {
             city = null;}
 
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setView(view);
         builder.setTitle("City Details");
 
+
         if (Objects.equals(tag, "City Details") && city != null) {
-            // If viewing an existing city, show Delete and Update buttons
+
             builder
                     .setPositiveButton("Update", (dialog, which) -> {
                         String title = editMovieName.getText().toString();
@@ -79,7 +87,7 @@ public class CityDialogFragment extends DialogFragment {
                         }
                     });
         } else {
-            // If adding a new city
+
             builder
                     .setPositiveButton("Add", (dialog, which) -> {
                         String title = editMovieName.getText().toString();
@@ -89,7 +97,9 @@ public class CityDialogFragment extends DialogFragment {
                     .setNegativeButton("Cancel", null);
         }
 
+
         return builder.create();
+
 
     }
 }
